@@ -4,7 +4,7 @@ const loader = document.getElementById('loader');
 let photosArray = [];
 
 //Unsplash API
-const count = 10000;
+const count = 30;
 const apiKey = 'z76akkGjesKHhrvYl_Gjer0JDPNkDyLNtbTh_zpRwK0';
 const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`
 
@@ -43,19 +43,24 @@ function displayPhotos() {
     })
 }
 
-
-
 // Get photos from Unsplash API
 async function getPhotos() {
     try {
         const response = await fetch(apiUrl);
         photosArray = await response.json();
-        console.log(photosArray)
         displayPhotos();
     } catch (error){
         //Catch Error Here
     }
 }
+
+//Check to see if scrolling near bottom of page, and Load More Photos
+window.addEventListener('scroll', ()=> {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight -1000) {
+        getPhotos();
+        console.log('load more');
+    }
+});
 
 //Check to see if scrolling near bottom of page , Load More photos
 window.addEventListener('scrool', ()=> {
